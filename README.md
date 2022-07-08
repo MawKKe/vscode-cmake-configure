@@ -1,6 +1,8 @@
 # vscode-cmake-configure
 
-A tool for configuring a CMake project automatically using Visual Studio Code settings file  `.vscode/settings.json`.
+A tool for configuring a CMake project on the command line, using Visual Studio Code settings file `.vscode/settings.json`.
+
+NOTE: this tool does not require VSCode to be available.
 
 ## Motivation
 

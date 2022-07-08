@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Configure a CMake project automatically using .vscode/settings.json
+// Configure a CMake project on the command line using .vscode/settings.json
 package main
 
 import (
@@ -113,7 +113,7 @@ func GetEnvOrDefault(key string, fallback string) string {
 var helpText = `==========
 
 %[1]s:
-	This a wrapper program for configuring CMake project automatically using contents of .vscode/settings.json
+	A tool for configuring a CMake project on the command line, using Visual Studio Code settings file '.vscode/settings.json'.
 
 	Most of the time you'll call it once for configuring the project, and then resume with normal CMake:
 
