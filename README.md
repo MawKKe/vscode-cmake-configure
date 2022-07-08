@@ -4,6 +4,8 @@ A tool for configuring a CMake project on the command line, using Visual Studio 
 
 NOTE: this tool does not require VSCode to be available.
 
+[![Go](https://github.com/MawKKe/vscode-cmake-configure/actions/workflows/go.yml/badge.svg)](https://github.com/MawKKe/vscode-cmake-configure/actions/workflows/go.yml)
+
 ## Motivation
 
 Let's say are working on a CMake project with VSCode. You have saved various settings into `.vscode/settings.json`, such as:
