@@ -78,6 +78,12 @@ By default the program expects the VSCode settings to exist in `$PWD/.vscode/set
 This program is written with Go 1.18, but it may compile with earlier versions.
 The program expects the `cmake` executable to be found in your `$PATH`.
 
+## Note about JSON and comments
+
+VSCode allows `.vscode/settings.json` to contain C-style comments, which is not valid in standard JSON. This program also supports commented JSON, allowing you to use the settings file as is.
+
+The support for commented JSON is provided by third party library (https://github.com/tidwall/jsonc).
+
 ## License
 
 Copyright 2022 Markus Holmström (MawKKe)
