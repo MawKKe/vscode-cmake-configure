@@ -12,12 +12,13 @@ import (
 	"github.com/tidwall/jsonc"
 )
 
+// VSCodeSettings is a struct representing VCode settings.json relating to CMake options
 type VSCodeSettings struct {
 	CMakeConfigureSettings  map[string]string `json:"cmake.configureSettings"`
 	CMakeConfigureArguments []string          `json:"cmake.configureArgs"`
 }
 
-// Extracts CMake -DKEY=VALUE parameters from given input file
+// ReadVSCodeSettings extracts CMake -DKEY=VALUE parameters from given input file
 func ReadVSCodeSettings(inputFile string) (VSCodeSettings, error) {
 	contents, err := os.ReadFile(inputFile)
 	if err != nil {
@@ -26,7 +27,7 @@ func ReadVSCodeSettings(inputFile string) (VSCodeSettings, error) {
 	return ParseVSCodeSettings(contents)
 }
 
-// Extracts CMake -DKEY=VALUE parameters from given input byte slice
+// ParseVSCodeSettings extracts CMake -DKEY=VALUE parameters from given input byte slice
 func ParseVSCodeSettings(inputString []byte) (VSCodeSettings, error) {
 	var settings VSCodeSettings
 	// We can't do normal JSON decode, since the file may contain
@@ -39,9 +40,11 @@ func ParseVSCodeSettings(inputString []byte) (VSCodeSettings, error) {
 	return settings, nil
 }
 
-func (s VSCodeSettings) FormatCMakeConfigureSettings() []string {
+// FormatCMakeConfigureSettings produces a list of "-DKEY=VALUE" arguments
+// from the configure settings, suitable for passing to CMake program.
+func (settings VSCodeSettings) FormatCMakeConfigureSettings() []string {
 	var args []string
-	for key, value := range s.CMakeConfigureSettings {
+	for key, value := range settings.CMakeConfigureSettings {
 		//fmt.Println(key, value)
 		args = append(args, fmt.Sprintf("-D%s=%s", key, shellescape.Quote(value)))
 	}
@@ -50,6 +53,8 @@ func (s VSCodeSettings) FormatCMakeConfigureSettings() []string {
 	return args
 }
 
+// CollectCLIArgs builds a complete set of CMake command line arguments from
+// all known information.
 func (settings VSCodeSettings) CollectCLIArgs(argv ...string) []string {
 
 	var allArgs []string
@@ -59,9 +64,7 @@ func (settings VSCodeSettings) CollectCLIArgs(argv ...string) []string {
 	return allArgs
 }
 
-// Runs CMake configure using given information.
-// DArgs and RawArgs originate from VSCode settings.json, while
-// CLIOptions originate from *this* process os.Args.
+// RunCMakeConfigure run CMake configuration command using the given settings.
 func RunCMakeConfigure(settings VSCodeSettings, dryRun bool) int {
 
 	cmd := exec.Command("cmake", settings.CollectCLIArgs(os.Args[1:]...)...)
@@ -83,6 +86,8 @@ func RunCMakeConfigure(settings VSCodeSettings, dryRun bool) int {
 	return cmd.ProcessState.ExitCode()
 }
 
+// GetEnvOrDefault returns environment variable described by 'key', or fallback
+// if the given key does not exist (or is empty).
 func GetEnvOrDefault(key string, fallback string) string {
 	if value, exists := os.LookupEnv(key); exists && value != "" {
 		return value
@@ -117,7 +122,7 @@ var helpText = `==========
 
 `
 
-func ShowHelp() {
+func showHelp() {
 	fmt.Printf(helpText, os.Args[0])
 }
 
@@ -126,7 +131,7 @@ func main() {
 	dryRun := GetEnvOrDefault("VCC_DRY_RUN", "FALSE") != "FALSE"
 
 	if len(os.Args) >= 2 && (os.Args[1] == "-h" || os.Args[1] == "--help") {
-		ShowHelp()
+		showHelp()
 	}
 
 	settings, err := ReadVSCodeSettings(inFile)
