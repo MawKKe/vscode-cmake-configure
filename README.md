@@ -71,7 +71,7 @@ By default the program expects the VSCode settings to exist in `$PWD/.vscode/set
 
 ## Install
 
-    $ go install github.com/MawKKe/vscode-cmake-configure
+    $ go install github.com/MawKKe/vscode-cmake-configure@latest
 
 ## Dependencies
 
