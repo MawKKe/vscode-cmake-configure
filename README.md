@@ -61,11 +61,11 @@ for example:
 
     $ vscode-cmake-configure -B path/to/mybuild -DCMAKE_FOO_VAR=BAZ path/to/src
 
-behind the scenes this command will collect its command line arguments, and options/settings from `.vscode/settings.json` and call `cmake` using them
+behind the scenes this command will collect its command line arguments, and options/settings from `.vscode/settings.json` and call `cmake` using them.
 
-Note that the program will always print the full constructed  `cmake` command before its execution. This is to ensure that you (the programmer) is always aware what is going on.
+Note that the program will always print the full constructed  `cmake` command before its execution. This is to ensure that you (the programmer) are always aware what is going on.
 
-If you wish to *only* see the command without actually executing it, specify environment variable `VCC_DRY_RUN` :
+If you wish to *only* see the command without actually executing it, specify environment variable `VCC_DRY_RUN`:
 
     $ env VCC_DRY_RUN=1 vscode-cmake-configure -B mybuild .
 
