@@ -73,6 +73,11 @@ By default the program expects the VSCode settings to exist in `$PWD/.vscode/set
 
     $ env VCC_VSCODE_SETTINGS=path/to/mysettings.json vscode-cmake-configure ...
 
+
+## Tips
+
+The `.vscode/settings.json` file is not a substitute for proper CMake usage. Important project-specific details should be placed in `CMakeLists.txt` files. Also note that newer CMake versions support [presets](https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html) which should help you avoid storing build parameter sets in editor-specific files (i.e `.vscode/settings.json`).
+
 ## Install
 
     $ go install github.com/MawKKe/vscode-cmake-configure@latest
