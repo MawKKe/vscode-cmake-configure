@@ -84,7 +84,7 @@ The `.vscode/settings.json` file is not a substitute for proper CMake usage. Imp
 
 ## Dependencies
 
-This program is written with Go 1.18, but it may compile with earlier versions.
+This program is written with Go 1.16, but it may compile with earlier versions.
 The program expects the `cmake` executable to be found in your `$PATH`.
 
 ## Note about JSON and comments
