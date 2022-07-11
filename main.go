@@ -23,6 +23,8 @@ import (
 	"sort"
 	"strings"
 
+	"golang.org/x/exp/slices"
+
 	"github.com/alessio/shellescape"
 	"github.com/tidwall/jsonc"
 )
@@ -110,6 +112,14 @@ func GetEnvOrDefault(key string, fallback string) string {
 	return fallback
 }
 
+// GetEnvAsBool returns environment variable named 'key' as boolean.
+// Returns false if key does not exist, or has value "0" or "false" (in any capitalization).
+// Returns true otherwise.
+func GetEnvAsBool(key string) bool {
+	value, exists := os.LookupEnv(key)
+	return exists && !slices.Contains([]string{"0", "false"}, strings.ToLower(value))
+}
+
 var helpText = `==========
 
 %[1]s:
@@ -143,7 +153,7 @@ func showHelp() {
 
 func main() {
 	inFile := GetEnvOrDefault("VCC_VSCODE_SETTINGS", ".vscode/settings.json")
-	dryRun := GetEnvOrDefault("VCC_DRY_RUN", "FALSE") != "FALSE"
+	dryRun := GetEnvAsBool("VCC_DRY_RUN")
 
 	if len(os.Args) >= 2 && (os.Args[1] == "-h" || os.Args[1] == "--help") {
 		showHelp()
